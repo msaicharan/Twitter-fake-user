@@ -1,7 +1,7 @@
 var express = require("express");
 var path = require("path");
 var bodyParser = require("body-parser");
-var util = require('util')
+var util = require("util");
 var app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -14,37 +14,36 @@ app.get("/", (req, res) => {
 });
 
 app.post("/submit", (req, res) => {
-  // let childProcess = require("child_process");
-  // const oldSpawn = childProcess.spawn;
-  // const mySpawn = () => {
-  //   //console.log(util.inspect(arguments))
-  // //  console.log(JSON.stringify(arguments));
-  //   var result = oldSpawn.apply(this, arguments);
-  //   return result;
-  // };
-  // childProcess.spawn = mySpawn;
-
-  var process = require("child_process").spawn("python", [
-    __dirname + "\\ml.py",
+  let childProcess = require("child_process");
+  var process = childProcess.spawn("python", [
+    path.resolve() + "\\ml.py",
     req.body.username
   ]);
-  process.on("error", (err) =>{
+  process.on("error", err => {
     console.log(err);
     throw err;
   });
-  process.stdout.on("data", (data)=> {
+  process.stdout.on("data", data => {
     // res.send(data.toString());
-    console.log("data      "+data.toString());
-    const result = { result: data.toString() };
+    console.log("data      " + data.toString());
+    const result = { userdetails: data.toString() };
 
     res.render("results", result);
   });
 });
 
-app.listen(8000, () => {
-  console.log("listening on port 8000");
-  // childProcess.spawn = mySpawn;
+const port = process.env.PORT || 8000;
 
-  // var process = require("child_process").spawn("python", [
-  //   __dirname + "\\ml.py","1"]);
+app.listen(port, () => {
+  let childProcess = require("child_process");
+  var process = childProcess.spawn("python", [path.resolve() + "\\ml.py", "1"]);
+  process.on("error", err => {
+    console.log(err);
+    throw err;
+  });
+  process.stdout.on("data", data => {
+    console.log("data      " + data.toString());
+  });
+
+  console.log(`running server on  ${port}`);
 });
