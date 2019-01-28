@@ -2,9 +2,17 @@ import pandas as pd
 import sklearn as skl
 import numpy as np
 import nltk
+import sys
 nltk.download('stopwords')
 from nltk.corpus import stopwords
+import riidl_final
+import tweepy
+import time
+from tweepy import Stream
+from tweepy import OAuthHandler
+from tweepy.streaming import StreamListener
 
+print ("fvvdfvf")
 
 CONSUMER_KEY = 'gejfWul5iUg3qKQfSDiYzvkyn'
 CONSUMER_SECRET = 'pu0YscYt1vJvKS714fnMRL8oxC1NGpvzjXT1hVyfJ6X6WuE7NC'
@@ -12,6 +20,7 @@ ACCESS_KEY = '1027969527714336768-d9zUk6g67A1B6yve4ZZ6QIqD5mDtic'
 ACCESS_SECRET = 'FP2nrfJ7v7NHezSvt9u1uR6YoHgPnmm6ip0mALUprTYrB'
 
 class TweetListener(StreamListener):
+
     # A listener handles tweets are the received from the stream.
     #This is a basic listener that just prints received tweets to standard output
 
@@ -32,7 +41,10 @@ twitterStream = Stream(auth,TweetListener())
 if(api.verify_credentials):
     print ('We successfully logged in')
 
-user = api.get_user(name)
+print(sys.argv[1])
+user = api.get_user(sys.argv[1])
+
+
 
 if(user.statuses_count!=0):
 	try:

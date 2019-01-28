@@ -2,6 +2,7 @@ import pandas as pd
 import sklearn as skl
 import numpy as np
 import nltk
+import xlrd
 
 nltk.download('stopwords')
 
@@ -34,13 +35,13 @@ df = df.fillna('NULL')
 
 """**AVERAGE WORD LENGTH:**"""
 
-if(df['char_count'].values != 0)
+#if(df['char_count'].values != 0)
 
-  def avg_word(sentence):
-    words = sentence.split()
-    return (sum(len(word) for word in words)/len(words))
+def avg_word(sentence):
+  words = sentence.split()
+  return (sum(len(word) for word in words)/len(words))
 
-  df['avg_word'] = df['Description'].apply(lambda x: avg_word(x))
+df['avg_word'] = df['Description'].apply(lambda x: avg_word(x))
  
 
 """**NUMBER OF STOPWORDS:**"""
@@ -199,8 +200,7 @@ y = y.ravel()
 """# ***KNN Classifier:***"""
 
 # import the class
-
-
+from sklearn.neighbors import KNeighborsClassifier
 # instantiate the model (with the default parameters)
 knn = KNeighborsClassifier()
 
